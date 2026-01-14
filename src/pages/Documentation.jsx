@@ -13,16 +13,35 @@ const CodeBlock = ({ code, language = 'jsx', filename }) => {
     <div className="mb-6">
       {filename && (
         <div className="flex items-center justify-between bg-gray-800 px-4 py-2 rounded-t-lg">
-          <span className="text-sm text-gray-300 font-mono">📁 {filename}</span>
+          <span className="text-sm text-gray-300 font-mono flex items-center gap-2">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+            </svg>
+            {filename}
+          </span>
           <span className="text-xs text-gray-400">{language}</span>
         </div>
       )}
       <div className="relative group">
         <button
           onClick={handleCopy}
-          className="absolute top-3 right-3 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm rounded-lg transition-colors z-10"
+          className="absolute top-3 right-3 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm rounded-lg transition-colors z-10 flex items-center gap-2"
         >
-          {copied ? '✅ Copied!' : '📋 Copy'}
+          {copied ? (
+            <>
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+              Copied!
+            </>
+          ) : (
+            <>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+              Copy
+            </>
+          )}
         </button>
         <pre className="bg-gray-900 rounded-b-lg p-6 overflow-x-auto max-h-[600px]">
           <code className="text-sm text-gray-100 font-mono whitespace-pre">
@@ -44,7 +63,13 @@ const ComponentAccordion = ({ title, filename, code, description }) => {
         className="w-full flex items-center justify-between p-6 bg-white hover:bg-gray-50 transition-colors"
       >
         <div className="flex items-center space-x-4">
-          <span className="text-2xl">{isOpen ? '📂' : '📁'}</span>
+          <svg className={`w-6 h-6 ${isOpen ? 'text-primary-600' : 'text-gray-400'}`} fill="currentColor" viewBox="0 0 20 20">
+            {isOpen ? (
+              <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+            ) : (
+              <path fillRule="evenodd" d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z" clipRule="evenodd" />
+            )}
+          </svg>
           <div className="text-left">
             <h3 className="text-lg font-bold text-gray-900">{title}</h3>
             <p className="text-sm text-gray-500 font-mono">{filename}</p>
@@ -73,10 +98,35 @@ const Documentation = ({ onNavigateToPortfolio }) => {
   const [activeTab, setActiveTab] = useState('setup');
 
   const tabs = [
-    { id: 'setup', label: '🚀 Setup' },
-    { id: 'config', label: '⚙️ Konfigurasi' },
-    { id: 'components', label: '🧩 Components' },
-    { id: 'data', label: '📊 Data' },
+    { 
+      id: 'setup', 
+      label: 'Setup',
+      icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg>
+    },
+    { 
+      id: 'config', 
+      label: 'Konfigurasi',
+      icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    },
+    { 
+      id: 'components', 
+      label: 'Components',
+      icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z" />
+      </svg>
+    },
+    { 
+      id: 'data', 
+      label: 'Data',
+      icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+    },
   ];
 
   return (
@@ -84,12 +134,20 @@ const Documentation = ({ onNavigateToPortfolio }) => {
       <header className="fixed w-full top-0 z-50 bg-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <h1 className="text-2xl font-bold text-primary-600">📖 Dokumentasi Lengkap</h1>
+            <h1 className="text-2xl font-bold text-primary-600 flex items-center gap-2">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+              Dokumentasi Lengkap
+            </h1>
             <button
               onClick={onNavigateToPortfolio}
-              className="px-6 py-2 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-colors"
+              className="px-6 py-2 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-colors flex items-center gap-2"
             >
-              ← Kembali
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Kembali
             </button>
           </div>
         </div>
@@ -99,8 +157,11 @@ const Documentation = ({ onNavigateToPortfolio }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold text-gray-900 mb-4">
-              📖 Dokumentasi Lengkap
+            <h1 className="text-5xl font-bold text-gray-900 mb-4 flex items-center justify-center gap-3">
+              <svg className="w-12 h-12 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+              Dokumentasi Lengkap
             </h1>
             <div className="w-20 h-1 bg-primary-600 mx-auto mb-4"></div>
             <p className="text-xl text-gray-600">
@@ -109,13 +170,22 @@ const Documentation = ({ onNavigateToPortfolio }) => {
           </div>
 
           <div className="bg-gradient-to-r from-primary-600 to-green-600 rounded-2xl p-8 mb-12 text-white text-center">
-            <h2 className="text-3xl font-bold mb-4">🌐 Live Demo</h2>
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+              </svg>
+              <h2 className="text-3xl font-bold">Live Demo</h2>
+            </div>
             <p className="text-lg mb-6">Lihat hasil akhir portfolio website!</p>
             <button
               onClick={onNavigateToPortfolio}
-              className="px-8 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:shadow-xl transition-all"
+              className="px-8 py-3 bg-white text-primary-600 font-semibold rounded-lg hover:shadow-xl transition-all inline-flex items-center gap-2"
             >
-              👁️ Lihat Portfolio Demo
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              Lihat Portfolio Demo
             </button>
           </div>
 
@@ -126,12 +196,13 @@ const Documentation = ({ onNavigateToPortfolio }) => {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex-1 px-6 py-4 text-sm font-semibold transition-colors whitespace-nowrap ${
+                    className={`flex-1 px-6 py-4 text-sm font-semibold transition-colors whitespace-nowrap flex items-center justify-center gap-2 ${
                       activeTab === tab.id
                         ? 'text-primary-600 border-b-2 border-primary-600 bg-primary-50'
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
                   >
+                    {tab.icon}
                     {tab.label}
                   </button>
                 ))}
@@ -143,7 +214,12 @@ const Documentation = ({ onNavigateToPortfolio }) => {
               {/* SETUP TAB */}
               {activeTab === 'setup' && (
                 <div>
-                  <h2 className="text-3xl font-bold mb-6">🚀 Setup dari Awal Sampai Selesai</h2>
+                  <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <svg className="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    Setup dari Awal Sampai Selesai
+                  </h2>
                   
                   <div className="space-y-8">
                     <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded">
@@ -166,8 +242,18 @@ const Documentation = ({ onNavigateToPortfolio }) => {
                       <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg mt-3">
                         <p className="text-sm font-semibold text-gray-800 mb-2">Pilihan saat setup:</p>
                         <ul className="text-sm text-gray-700 space-y-1">
-                          <li>✅ Select a framework: <strong className="text-blue-600">React</strong></li>
-                          <li>✅ Select a variant: <strong className="text-blue-600">JavaScript</strong></li>
+                          <li className="flex items-center gap-2">
+                            <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                            Select a framework: <strong className="text-blue-600">React</strong>
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <svg className="w-4 h-4 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                            </svg>
+                            Select a variant: <strong className="text-blue-600">JavaScript</strong>
+                          </li>
                         </ul>
                       </div>
                     </div>
@@ -231,14 +317,22 @@ npm install`}
                         language="bash"
                         filename="Terminal"
                       />
-                      <p className="text-gray-600 mt-3">
-                        ✅ Jika berhasil, buka: <code className="bg-gray-100 px-3 py-1 rounded font-mono text-primary-600">http://localhost:5173</code>
+                      <p className="text-gray-600 mt-3 flex items-center gap-2">
+                        <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                        Jika berhasil, buka: <code className="bg-gray-100 px-3 py-1 rounded font-mono text-primary-600">http://localhost:5173</code>
                       </p>
                     </div>
 
                     <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-                      <h3 className="text-lg font-bold text-green-900 mb-3">✅ Setup Dasar Selesai!</h3>
-                      <p className="text-green-800">Selanjutnya: Konfigurasi file di tab "⚙️ Konfigurasi"</p>
+                      <div className="flex items-center gap-3 mb-3">
+                        <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        <h3 className="text-lg font-bold text-green-900">Setup Dasar Selesai!</h3>
+                      </div>
+                      <p className="text-green-800">Selanjutnya: Konfigurasi file di tab "Konfigurasi"</p>
                     </div>
                   </div>
                 </div>
@@ -247,7 +341,13 @@ npm install`}
               {/* KONFIGURASI TAB */}
               {activeTab === 'config' && (
                 <div>
-                  <h2 className="text-3xl font-bold mb-6">⚙️ File Konfigurasi</h2>
+                  <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <svg className="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    File Konfigurasi
+                  </h2>
                   <p className="text-gray-600 mb-8">Copy semua file konfigurasi berikut ke project Anda</p>
                   
                   <CodeBlock
@@ -280,8 +380,11 @@ export default defineConfig({
                   />
 
                   <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 my-6 rounded">
-                    <p className="text-sm text-gray-700">
-                      <strong>✏️ Kustomisasi:</strong> Ubah <code className="bg-yellow-100 px-2 py-1 rounded">&lt;title&gt;</code> dengan nama Anda
+                    <p className="text-sm text-gray-700 flex items-start gap-2">
+                      <svg className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                      </svg>
+                      <span><strong>Kustomisasi:</strong> Ubah <code className="bg-yellow-100 px-2 py-1 rounded">&lt;title&gt;</code> dengan nama Anda</span>
                     </p>
                   </div>
 
@@ -375,8 +478,13 @@ export default App;`}
                   />
 
                   <div className="bg-green-50 border border-green-200 rounded-lg p-6 mt-6">
-                    <h3 className="text-lg font-bold text-green-900 mb-2">✅ Konfigurasi Selesai!</h3>
-                    <p className="text-green-800">Selanjutnya: Copy semua component di tab "🧩 Components"</p>
+                    <div className="flex items-center gap-3 mb-2">
+                      <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <h3 className="text-lg font-bold text-green-900">Konfigurasi Selesai!</h3>
+                    </div>
+                    <p className="text-green-800">Selanjutnya: Copy semua component di tab "Components"</p>
                   </div>
                 </div>
               )}
@@ -384,7 +492,12 @@ export default App;`}
               {/* COMPONENTS TAB */}
               {activeTab === 'components' && (
                 <div>
-                  <h2 className="text-3xl font-bold mb-6">🧩 Components Lengkap</h2>
+                  <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <svg className="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z" />
+                    </svg>
+                    Components Lengkap
+                  </h2>
                   <p className="text-gray-600 mb-8">
                     Klik setiap component untuk melihat dan copy kode lengkapnya
                   </p>
@@ -1060,8 +1173,13 @@ export default Footer;
                   />
 
                   <div className="mt-8 p-6 bg-green-50 border border-green-200 rounded-lg">
-                    <h3 className="text-lg font-bold text-green-900 mb-2">✅ Semua Component Selesai!</h3>
-                    <p className="text-green-800">Selanjutnya: Copy file data di tab "📊 Data"</p>
+                    <div className="flex items-center gap-3 mb-2">
+                      <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <h3 className="text-lg font-bold text-green-900">Semua Component Selesai!</h3>
+                    </div>
+                    <p className="text-green-800">Selanjutnya: Copy file data di tab "Data"</p>
                   </div>
                 </div>
               )}
@@ -1069,7 +1187,12 @@ export default Footer;
               {/* DATA TAB */}
               {activeTab === 'data' && (
                 <div>
-                  <h2 className="text-3xl font-bold mb-6">📊 Data Portfolio</h2>
+                  <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <svg className="w-8 h-8 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Data Portfolio
+                  </h2>
                   <p className="text-gray-600 mb-8">
                     File ini berisi semua data skills, projects, dan social links. Copy lengkap dengan SVG icons!
                   </p>
@@ -1264,7 +1387,12 @@ export const socialLinks = [
                   </div>
 
                   <div className="mt-6 p-6 bg-gradient-to-r from-primary-600 to-green-600 rounded-xl text-white">
-                    <h3 className="text-xl font-bold mb-3">🎉 Selamat! Setup Lengkap Selesai!</h3>
+                    <div className="flex items-center gap-3 mb-3">
+                      <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <h3 className="text-xl font-bold">Selamat! Setup Lengkap Selesai!</h3>
+                    </div>
                     <p className="mb-4">Semua file sudah siap. Sekarang:</p>
                     <ol className="list-decimal list-inside space-y-2 text-sm">
                       <li>Jalankan <code className="bg-white/20 px-2 py-1 rounded">npm run dev</code></li>
@@ -1282,29 +1410,43 @@ export const socialLinks = [
 
           {/* Final CTA */}
           <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-12 text-white text-center mt-8">
-            <h2 className="text-4xl font-bold mb-4">🚀 Siap Membuat Portfolio Anda!</h2>
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <svg className="w-12 h-12 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <h2 className="text-4xl font-bold">Siap Membuat Portfolio Anda!</h2>
+            </div>
             <p className="text-lg mb-8 text-gray-300 max-w-2xl mx-auto">
               Semua kode lengkap sudah tersedia. Tinggal copy-paste dan kustomisasi dengan data Anda sendiri!
             </p>
             
             <div className="grid md:grid-cols-4 gap-4 mb-8">
               <div className="bg-gray-800 rounded-lg p-6">
-                <div className="text-4xl mb-2">⚙️</div>
+                <svg className="w-10 h-10 mx-auto mb-2 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
                 <div className="font-bold">5 Config Files</div>
                 <div className="text-xs text-gray-400 mt-1">Siap pakai</div>
               </div>
               <div className="bg-gray-800 rounded-lg p-6">
-                <div className="text-4xl mb-2">🧩</div>
+                <svg className="w-10 h-10 mx-auto mb-2 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z" />
+                </svg>
                 <div className="font-bold">7 Components</div>
                 <div className="text-xs text-gray-400 mt-1">Lengkap</div>
               </div>
               <div className="bg-gray-800 rounded-lg p-6">
-                <div className="text-4xl mb-2">📊</div>
+                <svg className="w-10 h-10 mx-auto mb-2 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
                 <div className="font-bold">1 Data File</div>
                 <div className="text-xs text-gray-400 mt-1">Dengan SVG</div>
               </div>
               <div className="bg-gray-800 rounded-lg p-6">
-                <div className="text-4xl mb-2">🎨</div>
+                <svg className="w-10 h-10 mx-auto mb-2 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
                 <div className="font-bold">Full Responsive</div>
                 <div className="text-xs text-gray-400 mt-1">Mobile ready</div>
               </div>
@@ -1312,9 +1454,13 @@ export const socialLinks = [
 
             <button
               onClick={onNavigateToPortfolio}
-              className="px-10 py-4 bg-primary-600 hover:bg-primary-700 text-white font-bold text-lg rounded-lg transition-all transform hover:scale-105"
+              className="px-10 py-4 bg-primary-600 hover:bg-primary-700 text-white font-bold text-lg rounded-lg transition-all transform hover:scale-105 inline-flex items-center gap-3"
             >
-              👁️ Lihat Portfolio Demo
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              Lihat Portfolio Demo
             </button>
           </div>
 

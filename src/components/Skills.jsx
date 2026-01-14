@@ -2,43 +2,76 @@ import { skills } from '../data/portfolioData.jsx';
 
 const SkillCard = ({ skill }) => {
   return (
-    <div className="group bg-white p-6 rounded-xl shadow-md hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border border-gray-100 hover:border-primary-400">
-      <div className="flex justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-        {skill.icon}
-      </div>
-      <h3 className="text-xl font-semibold text-gray-900 mb-2 text-center">{skill.name}</h3>
-      <p className="text-sm text-primary-600 font-medium mb-2 text-center">{skill.category}</p>
-      <div className="flex items-center">
-        <div className="flex-1 bg-gray-200 rounded-full h-2 overflow-hidden">
-          <div
-            className={`h-full bg-gradient-to-r from-primary-500 to-green-500 rounded-full transition-all duration-1000 ${
-              skill.level === 'Advanced' ? 'w-11/12' : 'w-8/12'
-            }`}
-          ></div>
+    <div className="group relative bg-white p-6 rounded-2xl border border-gray-200 hover:border-primary-400 hover:shadow-xl transition-all duration-300">
+      <div className="flex items-start gap-4">
+        <div className="flex-shrink-0 w-14 h-14 bg-gray-50 rounded-xl flex items-center justify-center group-hover:bg-primary-50 transition-colors">
+          <div className="scale-75 group-hover:scale-90 transition-transform">
+            {skill.icon}
+          </div>
         </div>
-        <span className="ml-3 text-xs text-gray-600">{skill.level}</span>
+        
+        <div className="flex-1">
+          <h3 className="text-lg font-bold text-gray-900 mb-1">{skill.name}</h3>
+          <p className="text-sm text-gray-600 mb-3">{skill.category}</p>
+          
+          <div className="flex items-center gap-2">
+            <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div
+                className={`h-full bg-gradient-to-r from-primary-500 to-primary-600 rounded-full transition-all duration-500 ${
+                  skill.level === 'Advanced' ? 'w-11/12' : 'w-8/12'
+                }`}
+              ></div>
+            </div>
+            <span className="text-xs font-medium text-gray-500">{skill.level}</span>
+          </div>
+        </div>
       </div>
+      
+      {/* Hover Effect */}
+      <div className="absolute top-0 right-0 w-20 h-20 bg-primary-50 rounded-full -z-10 transform translate-x-8 -translate-y-8 group-hover:scale-150 transition-transform duration-300 opacity-0 group-hover:opacity-100"></div>
     </div>
   );
 };
 
 const Skills = () => {
   return (
-    <section id="skills" className="py-20 bg-gray-50">
+    <section id="skills" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">My Skills</h2>
-          <div className="w-20 h-1 bg-primary-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Here are some of the technologies and tools I work with to bring ideas to life.
+        
+        <div className="max-w-3xl mb-16">
+          <div className="inline-block mb-4">
+            <span className="px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-medium">
+              Skills & Tools
+            </span>
+          </div>
+          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+            Technologies I work with
+          </h2>
+          <p className="text-lg text-gray-600">
+            I'm constantly learning and expanding my skillset. Here are some of the technologies I use to bring ideas to life.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {skills.map((skill) => (
             <SkillCard key={skill.id} skill={skill} />
           ))}
         </div>
+
+        {/* Bottom CTA */}
+        <div className="mt-16 text-center">
+          <p className="text-gray-600 mb-4">Want to see these skills in action?</p>
+          <a
+            href="#projects"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 transition-colors"
+          >
+            View My Projects
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+
       </div>
     </section>
   );
